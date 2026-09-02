@@ -1,1 +1,130 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Manrope", ui-sans-serif, sans-serif;
+
+  --color-primary-50: #eef4ff;
+  --color-primary-100: #e0eaff;
+  --color-primary-200: #c7d9fe;
+  --color-primary-300: #a5c1fd;
+  --color-primary-400: #7fa1fa;
+  --color-primary-500: #5b7ef5;
+  --color-primary-600: #3f5ee9;
+  --color-primary-700: #3249d6;
+  --color-primary-800: #2c3dab;
+  --color-primary-900: #293887;
+  --color-primary-950: #1a2353;
+
+  --color-night-800: #16204a;
+  --color-night-900: #101735;
+  --color-night-950: #0b1026;
+
+  --shadow-card: 0 1px 2px rgb(16 24 53 / 0.05), 0 10px 30px -14px rgb(16 24 53 / 0.14);
+  --shadow-pop: 0 24px 60px -20px rgb(11 16 38 / 0.35);
+
+  --animate-fade-up: fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: fade-in 0.4s ease both;
+  --animate-scale-in: scale-in 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-slide-up: slide-up 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-slide-right: slide-right 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-float: float 5s ease-in-out infinite;
+  --animate-float-slow: float 7s ease-in-out 0.8s infinite;
+  --animate-pop-check: pop-check 0.45s cubic-bezier(0.22, 1.4, 0.36, 1) both;
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes scale-in {
+    from { opacity: 0; transform: scale(0.96) translateY(6px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slide-right {
+    from { opacity: 0; transform: translateX(-14px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-9px); }
+  }
+  @keyframes pop-check {
+    0% { opacity: 0; transform: scale(0.4); }
+    70% { transform: scale(1.08); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-slate-100 text-slate-800 font-sans antialiased;
+  font-feature-settings: "ss01";
+}
+
+.dark body {
+  @apply bg-night-950 text-slate-200;
+}
+
+::selection {
+  background: var(--color-primary-600);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar { height: 8px; width: 8px; }
+*::-webkit-scrollbar-thumb { background: rgb(100 116 139 / 0.35); border-radius: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+@utility kente {
+  background: linear-gradient(90deg, #ce1126 0%, #ce1126 33.3%, #fcd116 33.3%, #fcd116 66.6%, #006b3f 66.6%, #006b3f 100%);
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility grid-lines {
+  background-image:
+    linear-gradient(to right, rgb(91 126 245 / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(91 126 245 / 0.07) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+/* Receipt printing: hide everything except the receipt sheet */
+@media print {
+  body * { visibility: hidden; }
+  .receipt-print, .receipt-print * { visibility: visible; }
+  .receipt-print {
+    position: absolute !important;
+    inset: 0 auto auto 0;
+    width: 100%;
+    max-height: none !important;
+    overflow: visible !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  .no-print { display: none !important; }
+}
